@@ -1,6 +1,6 @@
 {
   "name": "lingo-stack",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Website that helps generate language flash cards",
   "main": "index.js",
   "scripts": {
@@ -13,7 +13,12 @@
     "type": "git",
     "url": "git+https://github.com/dom-waterson/lingo-stack.git"
   },
-  "keywords": [],
+  "keywords": [
+    "flashcards",
+    "word-generator",
+    "foreign-language"
+  ],
+  "author": "dom-waterson",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/dom-waterson/lingo-stack/issues"
