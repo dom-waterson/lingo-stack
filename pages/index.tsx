@@ -2,13 +2,6 @@ import * as React from 'react'
 import {
   Box,
   Button,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
   useDisclosure,
   Textarea,
   Container,
@@ -20,6 +13,7 @@ import {
   NumberDecrementStepper,
 } from '@chakra-ui/react'
 import { uniqueWords } from 'foreign-text-parser'
+import CreateModal from '@/components/CreateModal'
 
 export default function Home() {
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -60,38 +54,27 @@ export default function Home() {
           Create stack
         </Button>
 
-        <Modal isOpen={isOpen} onClose={onClose}>
-          <ModalOverlay />
-          <ModalContent>
-            <ModalHeader>Create stack</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody>
-              <Textarea
-                value={value}
-                onChange={handleInputChange}
-                resize="none"
-                placeholder="Text to generate word stack"
-                size="lg"
-              />
-              <NumberInput value={num} onChange={handleNumChange}>
-                <NumberInputField />
-                <NumberInputStepper>
-                  <NumberIncrementStepper />
-                  <NumberDecrementStepper />
-                </NumberInputStepper>
-              </NumberInput>
-            </ModalBody>
-
-            <ModalFooter display="flex" justifyContent="space-between">
-              <Button colorScheme="blue" mr={3} onClick={onClose}>
-                Close
-              </Button>
-              <Button onClick={handleCreate} disabled={!value} variant="ghost">
-                Create
-              </Button>
-            </ModalFooter>
-          </ModalContent>
-        </Modal>
+        <CreateModal
+          isOpen={isOpen}
+          handleCreate={handleCreate}
+          handleClose={onClose}
+          title="Create stack"
+        >
+          <Textarea
+            value={value}
+            onChange={handleInputChange}
+            resize="none"
+            placeholder="Text to generate word stack"
+            size="lg"
+          />
+          <NumberInput value={num} onChange={handleNumChange}>
+            <NumberInputField />
+            <NumberInputStepper>
+              <NumberIncrementStepper />
+              <NumberDecrementStepper />
+            </NumberInputStepper>
+          </NumberInput>
+        </CreateModal>
       </Box>
 
       <Container maxW="120ch" marginTop="20px">
