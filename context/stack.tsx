@@ -9,10 +9,12 @@ type Stack = {
 type ContextProps = {
   stacks: Stack[]
   addStack: (newStack: Stack) => void
+  removeStack: (id: string) => void
 }
 
 export const StackContext = React.createContext<ContextProps>({
   addStack: () => {},
+  removeStack: () => {},
   stacks: [],
 })
 
@@ -23,8 +25,13 @@ export const StackProvider: React.FC<React.ReactNode> = ({ children }) => {
     setStacks([...stacks, newStack])
   }
 
+  const removeStack = (id: string) => {
+    const filteredStacks = stacks.filter((stack) => stack.id !== id)
+    setStacks(filteredStacks)
+  }
+
   return (
-    <StackContext.Provider value={{ stacks, addStack }}>
+    <StackContext.Provider value={{ stacks, addStack, removeStack }}>
       {children}
     </StackContext.Provider>
   )
