@@ -22,6 +22,7 @@ import {
 import { useForm } from 'react-hook-form'
 
 import { uniqueWords } from 'foreign-text-parser'
+import { StackContext } from '@/context/stack'
 
 type CreateModalProps = {
   title: string
@@ -40,18 +41,20 @@ const CreateModal: React.FC<CreateModalProps> = ({
   handleClose,
   isOpen,
 }) => {
+  const { addStack } = React.useContext(StackContext)
   const {
     handleSubmit,
     register,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm()
 
   const handleCreate = async ({ text, numberOfWords, name }: FormValues) => {
     const result = await uniqueWords(text, numberOfWords)
 
-    const payload = { name, words: result }
+    addStack({ name, words: result })
 
-    console.log(payload)
+    reset()
     handleClose()
   }
 
