@@ -21,12 +21,27 @@ export const StackContext = React.createContext<ContextProps>({
 export const StackProvider: React.FC<React.ReactNode> = ({ children }) => {
   const [stacks, setStacks] = React.useState<Stack[]>([])
 
+  React.useEffect(() => {
+    const storageValue = window.localStorage.getItem('language-stacks')
+    if (!storageValue) return
+    setStacks(JSON.parse(storageValue))
+  }, [])
+
   const addStack = (newStack: Stack) => {
-    setStacks([...stacks, newStack])
+    const updatedStacks = [...stacks, newStack]
+    window.localStorage.setItem(
+      'language-stacks',
+      JSON.stringify(updatedStacks)
+    )
+    setStacks(updatedStacks)
   }
 
   const removeStack = (id: string) => {
     const filteredStacks = stacks.filter((stack) => stack.id !== id)
+    window.localStorage.setItem(
+      'language-stacks',
+      JSON.stringify(filteredStacks)
+    )
     setStacks(filteredStacks)
   }
 
