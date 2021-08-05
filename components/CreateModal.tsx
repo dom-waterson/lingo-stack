@@ -20,7 +20,7 @@ import {
   FormLabel,
   FormErrorMessage,
 } from '@chakra-ui/react'
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 
 import { uniqueWords } from 'foreign-text-parser'
 import { StackContext } from '@/context/stack'
@@ -47,6 +47,7 @@ const CreateModal: React.FC<CreateModalProps> = ({
     handleSubmit,
     register,
     reset,
+    control,
     formState: { errors, isSubmitting },
   } = useForm()
 
@@ -104,16 +105,25 @@ const CreateModal: React.FC<CreateModalProps> = ({
                 Enter number of words to find
               </FormLabel>
               <NumberInput min={1}>
-                <NumberInputField
-                  placeholder="10"
-                  {...register('numberOfWords', {
-                    required: 'Need to know the number of words to find',
-                  })}
+                <Controller
+                  name="numberOfWords"
+                  control={control}
+                  rules={{
+                    min: {
+                      value: 1,
+                      message: 'Minimum value is 1',
+                    },
+                  }}
+                  render={({ field }) => (
+                    <>
+                      <NumberInputField {...field} placeholder="10" />
+                      <NumberInputStepper>
+                        <NumberIncrementStepper />
+                        <NumberDecrementStepper />
+                      </NumberInputStepper>
+                    </>
+                  )}
                 />
-                <NumberInputStepper>
-                  <NumberIncrementStepper />
-                  <NumberDecrementStepper />
-                </NumberInputStepper>
               </NumberInput>
               <FormErrorMessage>
                 {errors.numberOfWords && errors.numberOfWords.message}
