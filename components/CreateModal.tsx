@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { v4 as uuidv4 } from 'uuid'
 import {
   Button,
   Modal,
@@ -52,7 +53,7 @@ const CreateModal: React.FC<CreateModalProps> = ({
   const handleCreate = async ({ text, numberOfWords, name }: FormValues) => {
     const result = await uniqueWords(text, numberOfWords)
 
-    addStack({ name, words: result })
+    addStack({ id: uuidv4(), name, words: result })
 
     reset()
     handleClose()

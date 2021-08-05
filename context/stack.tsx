@@ -1,6 +1,7 @@
 import * as React from 'react'
 
 type Stack = {
+  id: string
   name: string
   words: string[]
 }
