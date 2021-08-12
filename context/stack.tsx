@@ -3,7 +3,12 @@ import * as React from 'react'
 type Stack = {
   id: string
   name: string
-  words: string[]
+  words: Word[]
+}
+
+type Word = {
+  word: string
+  translation: string
 }
 
 type ContextProps = {

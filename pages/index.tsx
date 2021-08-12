@@ -32,7 +32,7 @@ export default function Home() {
           </Box>
           <SimpleGrid paddingBottom={8} minChildWidth="120px" spacing="40px">
             {stack.words.map((word, index) => (
-              <Card key={`${stack.id}-${index}`} word={word} />
+              <Card key={`${stack.id}-${index}`} data={word} />
             ))}
           </SimpleGrid>
           <Divider />

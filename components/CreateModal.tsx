@@ -1,4 +1,6 @@
 import * as React from 'react'
+// @ts-ignore
+import translate from 'translate'
 import { v4 as uuidv4 } from 'uuid'
 import {
   Button,
@@ -54,7 +56,20 @@ const CreateModal: React.FC<CreateModalProps> = ({
   const handleCreate = async ({ text, numberOfWords, name }: FormValues) => {
     const result = await uniqueWords(text, numberOfWords)
 
-    addStack({ id: uuidv4(), name, words: result })
+    const translatedWords = await translate(result.toString(), {
+      from: 'es',
+      engine: 'google',
+      key: process.env.NEXT_PUBLIC_GOOGLE_TRANSLATE_KEY,
+    })
+
+    const stack = translatedWords
+      .split(', ')
+      .map((translation: string, index: number) => ({
+        word: result[index],
+        translation,
+      }))
+
+    addStack({ id: uuidv4(), name, words: stack })
 
     reset()
     handleClose()
