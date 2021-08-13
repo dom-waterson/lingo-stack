@@ -54,7 +54,7 @@ const CreateModal: React.FC<CreateModalProps> = ({
   } = useForm()
 
   const handleCreate = async ({ text, numberOfWords, name }: FormValues) => {
-    const result = await uniqueWords(text, numberOfWords)
+    const result = await uniqueWords(text, { wordLimit: numberOfWords })
 
     const translatedWords = await translate(result.toString(), {
       from: 'es',
