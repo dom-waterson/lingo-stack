@@ -21,11 +21,13 @@ import {
   FormControl,
   FormLabel,
   FormErrorMessage,
+  Select,
 } from '@chakra-ui/react'
 import { Controller, useForm } from 'react-hook-form'
 
 import { uniqueWords } from 'foreign-text-parser'
 import { StackContext } from '@/context/stack'
+import { getStackWords } from '../utils'
 
 type CreateModalProps = {
   title: string
@@ -37,6 +39,7 @@ type FormValues = {
   name: string
   text: string
   numberOfWords: number
+  ignoreStackId: string
 }
 
 const CreateModal: React.FC<CreateModalProps> = ({
@@ -44,7 +47,7 @@ const CreateModal: React.FC<CreateModalProps> = ({
   handleClose,
   isOpen,
 }) => {
-  const { addStack } = React.useContext(StackContext)
+  const { stacks, addStack } = React.useContext(StackContext)
   const {
     handleSubmit,
     register,
@@ -53,8 +56,23 @@ const CreateModal: React.FC<CreateModalProps> = ({
     formState: { errors, isSubmitting },
   } = useForm()
 
-  const handleCreate = async ({ text, numberOfWords, name }: FormValues) => {
-    const result = await uniqueWords(text, { wordLimit: numberOfWords })
+  const handleCreate = async ({
+    text,
+    numberOfWords,
+    name,
+    ignoreStackId,
+  }: FormValues) => {
+    //TODO find a better way
+    const options = {
+      wordLimit: numberOfWords && numberOfWords,
+      ignoreWords: ignoreStackId
+        ? getStackWords(
+            stacks.find((stack) => stack.id === ignoreStackId)!.words
+          )
+        : [],
+    }
+
+    const result = await uniqueWords(text, options)
 
     const translatedWords = await translate(result.toString(), {
       from: 'es',
@@ -143,6 +161,21 @@ const CreateModal: React.FC<CreateModalProps> = ({
               <FormErrorMessage>
                 {errors.numberOfWords && errors.numberOfWords.message}
               </FormErrorMessage>
+            </FormControl>
+
+            <FormControl paddingBottom={4}>
+              <FormLabel htmlFor="stacks">Exclude these words</FormLabel>
+              <Select
+                id="stacks"
+                placeholder="Select stack of word"
+                {...register('ignoreStackId')}
+              >
+                {stacks.map((stack) => (
+                  <option key={stack.id} value={stack.id}>
+                    {stack.name}
+                  </option>
+                ))}
+              </Select>
             </FormControl>
           </ModalBody>
           <ModalFooter display="flex" justifyContent="space-between">
