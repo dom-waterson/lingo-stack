@@ -28,8 +28,6 @@ function deleteStack(id: string) {
 function getStacks() {
   const storageValue = window.localStorage.getItem(KEY)
 
-  console.log(storageValue)
-
   if (!storageValue) {
     return []
   } else {
