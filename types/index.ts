@@ -8,3 +8,8 @@ export type Word = {
   word: string
   translation: string
 }
+
+export type FormPayload = {
+  name: string
+  words: Word[]
+}

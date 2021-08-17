@@ -1,7 +1,6 @@
 import * as React from 'react'
 // @ts-ignore
 import translate from 'translate'
-import { v4 as uuidv4 } from 'uuid'
 import {
   Button,
   Modal,
@@ -87,7 +86,7 @@ const CreateModal: React.FC<CreateModalProps> = ({
         translation,
       }))
 
-    addStack({ id: uuidv4(), name, words: stack })
+    addStack({ name, words: stack })
 
     reset()
     handleClose()

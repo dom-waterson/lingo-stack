@@ -1,9 +1,10 @@
 import * as React from 'react'
-import { Stack } from '@/types/index'
+import { FormPayload, Stack } from '@/types/index'
+import { createStack, deleteStack, getStacks } from '@/lib/db'
 
 type ContextProps = {
   stacks: Stack[]
-  addStack: (newStack: Stack) => void
+  addStack: (newStack: FormPayload) => void
   removeStack: (id: string) => void
 }
 
@@ -17,27 +18,16 @@ export const StackProvider: React.FC<React.ReactNode> = ({ children }) => {
   const [stacks, setStacks] = React.useState<Stack[]>([])
 
   React.useEffect(() => {
-    const storageValue = window.localStorage.getItem('language-stacks')
-    if (!storageValue) return
-    setStacks(JSON.parse(storageValue))
+    setStacks(getStacks())
   }, [])
 
-  const addStack = (newStack: Stack) => {
-    const updatedStacks = [...stacks, newStack]
-    window.localStorage.setItem(
-      'language-stacks',
-      JSON.stringify(updatedStacks)
-    )
-    setStacks(updatedStacks)
+  const addStack = (newStack: FormPayload) => {
+    const data = createStack(newStack)
+    setStacks([...stacks, data])
   }
 
   const removeStack = (id: string) => {
-    const filteredStacks = stacks.filter((stack) => stack.id !== id)
-    window.localStorage.setItem(
-      'language-stacks',
-      JSON.stringify(filteredStacks)
-    )
-    setStacks(filteredStacks)
+    setStacks(deleteStack(id))
   }
 
   return (

@@ -6,6 +6,7 @@ import LanguageStackItem from '@/components/LanguageStack'
 
 export default function Home() {
   const { stacks, removeStack } = React.useContext(StackContext)
+  console.log(stacks)
 
   return (
     <Container maxW="120ch" marginTop="20px">
