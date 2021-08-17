@@ -1,11 +1,10 @@
 import * as React from 'react'
 import { Stat, StatLabel } from '@chakra-ui/react'
 
+import { Word } from '@/types/index'
+
 type StatsCardProps = {
-  data: {
-    word: string
-    translation: string
-  }
+  data: Word
 }
 
 const Card = ({ data: { word, translation } }: StatsCardProps) => (

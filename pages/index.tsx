@@ -1,43 +1,23 @@
 import * as React from 'react'
-import {
-  Box,
-  Container,
-  Divider,
-  Heading,
-  IconButton,
-  SimpleGrid,
-} from '@chakra-ui/react'
-import { DeleteIcon } from '@chakra-ui/icons'
+import { Container, Stack, StackDivider } from '@chakra-ui/react'
 
 import { StackContext } from '@/context/stack'
-import Card from '@/components/Card'
+import LanguageStackItem from '@/components/LanguageStack'
 
 export default function Home() {
   const { stacks, removeStack } = React.useContext(StackContext)
 
   return (
     <Container maxW="120ch" marginTop="20px">
-      {stacks.map((stack) => (
-        <Box key={stack.id} paddingBottom={10}>
-          <Box d="flex" justifyContent="space-between">
-            <Heading paddingBottom={4} as="h3" size="lg">
-              {stack.name}
-            </Heading>
-            <IconButton
-              onClick={() => removeStack(stack.id)}
-              colorScheme="red"
-              aria-label="Delete stack"
-              icon={<DeleteIcon />}
-            />
-          </Box>
-          <SimpleGrid paddingBottom={8} minChildWidth="120px" spacing="40px">
-            {stack.words.map((word, index) => (
-              <Card key={`${stack.id}-${index}`} data={word} />
-            ))}
-          </SimpleGrid>
-          <Divider />
-        </Box>
-      ))}
+      <Stack divider={<StackDivider borderColor="gray.200" />} spacing={8}>
+        {stacks.map((stack) => (
+          <LanguageStackItem
+            key={stack.id}
+            stack={stack}
+            removeStack={removeStack}
+          />
+        ))}
+      </Stack>
     </Container>
   )
 }
