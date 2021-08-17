@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Stat, StatLabel, useColorModeValue } from '@chakra-ui/react'
+import { Stat, StatLabel } from '@chakra-ui/react'
 
 type StatsCardProps = {
   data: {
@@ -14,9 +14,7 @@ const Card = ({ data: { word, translation } }: StatsCardProps) => (
     py="5"
     shadow="xl"
     border="1px solid"
-    borderColor={useColorModeValue('blue.800', 'blue.500')}
     rounded="lg"
-    bg="blue.50"
   >
     <StatLabel fontSize="2xl" fontWeight="bold">
       {word}
